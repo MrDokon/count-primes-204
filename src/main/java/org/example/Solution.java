@@ -2,19 +2,25 @@ package org.example;
 
 class Solution {
 
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println(solution.countPrimes(5000000));
-    }
-
-
-    public int countPrimes(int n) {
+    // explanation - line:58
+    public int countPrimes(int n) { // time complexity O(NLogLogN)
         if (n <= 2) return 0;
-        int counter = 0;
-        for (int i = 2; i < n; i++) {
-            if (isPrimeBoosted(i)) counter++;
+        boolean[] prime = new boolean[n + 1];
+        for (int i = 0; i <= n; i++) {
+            prime[i] = true;
         }
-        return counter;
+        for (int p = 2; p * p <= n; p++) {
+            if (prime[p]) {
+                for (int i = p * p; i <= n; i+=p) {
+                    prime[i] = false;
+                }
+            }
+        }
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (prime[i]) count++;
+        }
+        return count;
     }
 
     // why this solution is bad?
@@ -31,7 +37,7 @@ class Solution {
         return true;
     }
 
-// it is way waster, but there might be a better solution -> sieve of Eratosthenes
+    // it is way waster, but sieve of Eratosthenes is better
     private boolean isPrimeBoosted(int n) {
         if (n <= 1) return false;
         for (int i = 2; i < (int) Math.sqrt(n) + 1; i++) {
@@ -40,12 +46,42 @@ class Solution {
         return true;
     }
 
-// solutions:
-// - sieve of Eratosthenes - EASIER
-// - sieve of Atkin https://www.geeksforgeeks.org/sieve-of-atkin/ - MOST EFFICIENT
-
+    /*
+    provided solution - sieve of Eratosthenes
+    find primes up to N
+    For all numbers a: from 2 to sqrt(n)
+    IF a is unmarked THEN
+        a is prime
+        for all multiples of a (a<n)
+        mark multiples as composite
+    All unmarked numbers are prime!
+     */
+    private boolean[] isPrime(int n) {
+        // create a boolean array and initialize all entries as true
+        // a value in prime[i] will finally be false if i is Not a prime, else true.
+        boolean[] prime = new boolean[n + 1];
+        prime[0] = false;
+        prime[1] = false;
+        for (int i = 0; i <= n; i++) {
+            prime[i] = true;
+        }
+        //mark multiples as composite
+        for (int p = 2; p * p <= n; p++) {
+            //if prime is not changed, then it is a prime
+            if (prime[p]) { // prime[p] -> prime[p] == true
+                //update all multiples of p
+                for (int i = p * p; i <= n; i+=p) {
+                    prime[i] = false;
+                }
+            }
+        }
+        return prime;
+    }
 
 }
+// - also interesting: sieve of Atkin https://www.geeksforgeeks.org/sieve-of-atkin/
+
+
 
 
 
