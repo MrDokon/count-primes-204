@@ -1,11 +1,6 @@
 # Sieve of Eratosthenes solution
 
-Find primes up to N
-For all numbers a: from 2 to sqrt(n)
-IF a is unmarked THEN a is prime
-        for all multiples of a (a<n)
-        mark multiples as composite
-All unmarked numbers are prime!
+Given an integer n, return the number of prime numbers that are strictly less than n.
 
 ### Java solution
 
@@ -30,4 +25,14 @@ All unmarked numbers are prime!
         }
         return count;
     }
+```
+
+### Explanation
+```bash
+Find primes up to N
+For all numbers a: from 2 to sqrt(n)
+IF a is unmarked THEN a is prime
+        for all multiples of a (a<n)
+        mark multiples as composite
+All unmarked numbers are prime!
 ```
